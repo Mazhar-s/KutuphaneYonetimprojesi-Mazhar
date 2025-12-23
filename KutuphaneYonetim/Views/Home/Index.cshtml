@@ -1,0 +1,48 @@
+﻿@{
+    ViewData["Title"] = "Ana Sayfa";
+}
+
+<div class="container text-center mt-5">
+    <div class="mb-5">
+        <h1 style="font-size: 3rem; font-weight: 800; color: #2c3e50; letter-spacing: -1px;">
+            Dijital Kitaplığım
+        </h1>
+        <p class="text-muted fs-5">Kayıtları yönetmek için bir işlem seçin.</p>
+        <div style="height: 3px; width: 60px; background-color: #2c3e50; margin: 20px auto;"></div>
+    </div>
+
+    <div class="row justify-content-center gap-4">
+
+        <a href="/Kitaps" class="col-md-4 text-decoration-none">
+            <div class="p-5 rounded-4 shadow-sm border-0" style="background-color: #f8f9fa; transition: 0.3s; color: #2c3e50;">
+                <div class="display-3 mb-3">📚</div>
+                <h3 class="fw-bold">Kitap Arşivi</h3>
+                <p class="small text-muted mb-0">Tüm kitapları listele ve düzenle</p>
+            </div>
+        </a>
+
+        <a href="/Kitaps/Create" class="col-md-4 text-decoration-none">
+            <div class="p-5 rounded-4 shadow-sm border-0" style="background-color: #2c3e50; transition: 0.3s; color: #ffffff;">
+                <div class="display-3 mb-3">➕</div>
+                <h3 class="fw-bold text-white">Yeni Kitap</h3>
+                <p class="small text-white-50 mb-0">Sisteme hızlıca yeni kayıt ekle</p>
+            </div>
+        </a>
+
+    </div>
+
+    <div class="mt-5 pt-5">
+        <p style="font-family: 'Times New Roman', serif; font-style: italic; color: #95a5a6;">
+            "Dünya bir kitaptır ve seyahat etmeyenler onun sadece bir sayfasını okurlar."
+        </p>
+        
+    </div>
+</div>
+
+<style>
+    /* Üzerine gelince hafifçe büyüme efekti */
+    .col-md-4 div:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+    }
+</style>

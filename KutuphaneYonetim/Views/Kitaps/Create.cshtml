@@ -1,0 +1,56 @@
+﻿@model KutuphaneYonetim.Models.Kitap
+
+@{
+    ViewData["Title"] = "Yeni Kitap";
+}
+
+<h1>Yeni Kitap Ekle</h1>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Ad" class="control-label"></label>
+                <input asp-for="Ad" class="form-control" />
+                <span asp-validation-for="Ad" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Yazar" class="control-label"></label>
+                <input asp-for="Yazar" class="form-control" />
+                <span asp-validation-for="Yazar" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="SayfaSayisi" class="control-label"></label>
+                <input asp-for="SayfaSayisi" class="form-control" />
+                <span asp-validation-for="SayfaSayisi" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Tur" class="control-label"></label>
+                <input asp-for="Tur" class="form-control" />
+                <span asp-validation-for="Tur" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="BasimYili" class="control-label"></label>
+                <input asp-for="BasimYili" class="form-control" />
+                <span asp-validation-for="BasimYili" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="ResimDosyasi" class="control-label">Kapak Resmi</label>
+                <input asp-for="ResimDosyasi" accept="image/*" type="file" class="form-control" />
+                <span asp-validation-for="ResimDosyasi" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mt-3">
+                <input type="submit" value="Kaydet" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">İptal</a>
+            </div>
+        </form>
+    </div>
+</div>
