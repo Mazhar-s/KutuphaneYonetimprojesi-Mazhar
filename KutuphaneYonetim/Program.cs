@@ -1,17 +1,27 @@
+
 using KutuphaneYonetim.Data;
 using KutuphaneYonetim.Models;
 using Microsoft.EntityFrameworkCore;
-using KutuphaneYonetim.Models;
+using System.Globalization;
+
+// Türkçe karakter desteðini konsol ve uygulama genelinde aktif etmesi için
+Console.OutputEncoding = System.Text.Encoding.UTF8;
+var cultureInfo = new CultureInfo("tr-TR");
+CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Servisleri ekler
 builder.Services.AddControllersWithViews();
 
+// SQLite veritabaný ayarý
 builder.Services.AddDbContext<KutuphaneYonetimContext>(options =>
     options.UseSqlite("Data Source=Kutuphane.db"));
 
 var app = builder.Build();
 
+// Hata yönetimi
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -19,16 +29,10 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseStaticFiles(); 
 
-// Yüklenen resimlerin dýþarýdan görünmesi için bu kýsmý ekledim
-app.UseStaticFiles(new StaticFileOptions
-{
-    FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(
-        Path.Combine(builder.Environment.ContentRootPath, "wwwroot", "uploads")),
-    RequestPath = "/uploads"
-});
+// wwwroot klasöründeki her þeyi  okuyabilmesi için
 app.UseStaticFiles();
+
 app.UseRouting();
 app.UseAuthorization();
 
@@ -36,64 +40,24 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
-    var context = services.GetRequiredService<KutuphaneYonetim.Data.KutuphaneYonetimContext>();
+    var context = services.GetRequiredService<KutuphaneYonetimContext>();
     context.Database.Migrate();
+
     if (!context.Kitaplar.Any())
     {
         context.Kitaplar.AddRange(
-            new Kitap
-            {
-                Ad = "Uçurtma Avcýsý", // KitapAdý deðil, sende "Ad" yazýyor
-                Yazar = "Khaled Hosseini",
-                SayfaSayisi = 375, // SayfaSayýsý deðil, sende "SayfaSayisi" (ý harfi yok)
-                Tur = "Roman",
-                BasimYili = 2003, // Bu alan sende zorunlu, eklemezsek hata verir
-                ResimYolu = "https://img.kitapyurdu.com/v1/getImage/fn:11333160/wh:true/wi:220" // KapakResmi deðil, "ResimYolu"
-            },
-            new Kitap
-            {
-                Ad = "OD",
-                Yazar = "Ýskender Pala",
-                SayfaSayisi = 358,
-                Tur = "Roman",
-                BasimYili = 2011,
-                ResimYolu = "https://img.kitapyurdu.com/v1/getImage/fn:11267812/wh:true/wi:220"
-            },
-            new Kitap
-            {
-                Ad = "Kafkas Kartalý – Þeyh Þamil",
-                Yazar = "Yavuz Bahadýroðlu",
-                SayfaSayisi = 216,
-                Tur = "Biyografik Roman",
-                BasimYili = 1990,
-                ResimYolu = "https://img.kitapyurdu.com/v1/getImage/fn:11252192/wh:true/wi:220"
-            },
-            new Kitap
-            {
-                Ad = "Çile",
-                Yazar = "Necip Fazýl Kýsakürek",
-                SayfaSayisi = 502,
-                Tur = "Þiir",
-                BasimYili = 1962,
-                ResimYolu = "https://img.kitapyurdu.com/v1/getImage/fn:11303273/wh:true/wi:220"
-            },
-            new Kitap
-            {
-                Ad = "Kürk Mantolu Madonna",
-                Yazar = "Sabahattin Ali",
-                SayfaSayisi = 160,
-                Tur = "Roman",
-                BasimYili = 1943,
-                ResimYolu = "https://img.kitapyurdu.com/v1/getImage/fn:11340150/wh:true/wi:220"
-            }
+            new Kitap { Ad = "Uçurtma Avcýsý", Yazar = "Khaled Hosseini", SayfaSayisi = 375, Tur = "Roman", BasimYili = 2003, ResimYolu = "/images/ucurtma.jpg" },
+            new Kitap { Ad = "OD", Yazar = "Ýskender Pala", SayfaSayisi = 358, Tur = "Roman", BasimYili = 2011, ResimYolu = "/images/od.jpg" },
+            new Kitap { Ad = "Kafkas Kartalý", Yazar = "Yavuz Bahadýroðlu", SayfaSayisi = 256, Tur = "Roman", BasimYili = 2007, ResimYolu = "/images/seyhsamil.jpg" },
+            new Kitap { Ad = "Çile", Yazar = "Necip Fazýl Kýsakürek", SayfaSayisi = 502, Tur = "Þiir", BasimYili = 1962, ResimYolu = "/images/cile.png" },
+            new Kitap { Ad = "Kürk Mantolu Madonna", Yazar = "Sabahattin Ali", SayfaSayisi = 160, Tur = "Roman", BasimYili = 1943, ResimYolu = "/images/madonna.jpg" }
         );
         context.SaveChanges();
     }
 }
 
 app.Run();
-
-
