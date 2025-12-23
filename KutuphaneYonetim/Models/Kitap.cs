@@ -18,13 +18,16 @@ namespace KutuphaneYonetim.Models
         [Required(ErrorMessage = "Lütfen yazar adını giriniz.")]
         [Display(Name = "Yazar")]
         public string Yazar { get; set; } = "";
-
+        
+        [Required(ErrorMessage = "Lütfen Sayfa sayısını giriniz.")]
         [Display(Name = "Sayfa Sayısı")]
         public int SayfaSayisi { get; set; }
-
+        
+        [Required(ErrorMessage = "Lütfen türünü giriniz.")]
         [Display(Name = "Tür")]
         public string Tur { get; set; } = "";
 
+        [Required(ErrorMessage = "Lütfen basım yılını giriniz.")]
         [Display(Name = "Basım Yılı")]
         public int BasimYili { get; set; }
 
