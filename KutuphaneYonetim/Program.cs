@@ -1,20 +1,10 @@
 using KutuphaneYonetim.Data;
 using KutuphaneYonetim.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Globalization;
-
-// Konsolda ve projede Türkçe karakterlerin (ç, þ, ð gibi) bozuk görünmemesi için dil ayarlarýný yaptým.
-Console.OutputEncoding = System.Text.Encoding.UTF8;
-var cultureInfo = new CultureInfo("tr-TR");
-CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
-CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// MVC yapýsýný projeye ekledim.
 builder.Services.AddControllersWithViews();
-
-// Veritabaný olarak SQLite kullanacaðýmý belirttim.
 builder.Services.AddDbContext<KutuphaneYonetimContext>(options =>
     options.UseSqlite("Data Source=Kutuphane.db"));
 
@@ -27,9 +17,7 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-// wwwroot klasöründeki resimlerin ve dosyalarýn çalýþmasý için bu kod gerekli.
-app.UseStaticFiles();
+app.UseStaticFiles(); // Resimlerin çalýþmasý için þart
 
 app.UseRouting();
 app.UseAuthorization();
@@ -38,26 +26,28 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-// Veritabaný oluþturma ve baþlangýç verilerini ekleme iþlemleri
+// VERÝTABANI TEMÝZLÝK VE KURULUM
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<KutuphaneYonetimContext>();
 
-    // Veritabanýný otomatik oluþtur (yoksa kurar).
+    // Veritabanýný güncelle
     context.Database.Migrate();
 
-    // Verilerin sürekli üst üste eklenmesini önlemek için önce eski listeyi temizliyorum.
+    // 1. ESKÝ BOZUK KAYITLARI SÝL (Soru iþaretli olanlar gitsin)
     var eskiKayitlar = context.Kitaplar.ToList();
     context.Kitaplar.RemoveRange(eskiKayitlar);
     context.SaveChanges();
 
-    // Kitaplarý ve resim yollarýný veritabanýna ekliyorum.
-    // Resimler projemdeki wwwroot/images klasöründe duruyor.
+    // 2. TEMÝZ VERÝLERÝ EKLE
+    // Not: Ýsimleri Ýngilizce karakterle (c, s, u) yazýyoruz. 
+    // Böylece sunucu "Bu ne?" demez, yazýlar düzgün çýkar.
+    // Site açýlýnca "Düzenle" diyip Türkçe yapabilirsin.
     context.Kitaplar.AddRange(
         new Kitap
         {
-            Ad = "Uçurtma Avcýsý",
+            Ad = "Ucurtma Avcisi",
             Yazar = "Khaled Hosseini",
             SayfaSayisi = 375,
             Tur = "Roman",
@@ -67,7 +57,7 @@ using (var scope = app.Services.CreateScope())
         new Kitap
         {
             Ad = "OD",
-            Yazar = "Ýskender Pala",
+            Yazar = "Iskender Pala",
             SayfaSayisi = 358,
             Tur = "Roman",
             BasimYili = 2011,
@@ -75,25 +65,25 @@ using (var scope = app.Services.CreateScope())
         },
         new Kitap
         {
-            Ad = "Kafkas Kartalý – Þeyh Þamil",
-            Yazar = "Yavuz Bahadýroðlu",
-            SayfaSayisi = 256,
+            Ad = "Kafkas Kartali",
+            Yazar = "Yavuz Bahadiroglu",
+            SayfaSayisi = 216,
             Tur = "Roman",
-            BasimYili = 2007,
+            BasimYili = 1990,
             ResimYolu = "/images/seyhsamil.jpg"
         },
         new Kitap
         {
-            Ad = "Çile",
-            Yazar = "Necip Fazýl Kýsakürek",
+            Ad = "Cile",
+            Yazar = "Necip Fazil Kisakurek",
             SayfaSayisi = 502,
-            Tur = "Þiir",
+            Tur = "Siir",
             BasimYili = 1962,
             ResimYolu = "/images/cile.png"
         },
         new Kitap
         {
-            Ad = "Kürk Mantolu Madonna",
+            Ad = "Kurk Mantolu Madonna",
             Yazar = "Sabahattin Ali",
             SayfaSayisi = 160,
             Tur = "Roman",
@@ -101,7 +91,6 @@ using (var scope = app.Services.CreateScope())
             ResimYolu = "/images/madonna.jpg"
         }
     );
-    // Deðiþiklikleri veritabanýna kaydettim.
     context.SaveChanges();
 }
 
