@@ -37,10 +37,10 @@ app.MapControllerRoute(
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
-    var context = services.GetRequiredService<KutuphaneYonetim.Data.KutuphaneContext>();
+    var context = services.GetRequiredService<KutuphaneYonetim.Data.KutuphaneYonetimContext>();
     context.Database.Migrate();
 }
 
 app.Run();
 
-app.Run();
+
