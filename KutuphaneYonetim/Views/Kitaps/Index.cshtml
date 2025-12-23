@@ -1,48 +1,61 @@
 ﻿@model IEnumerable<KutuphaneYonetim.Models.Kitap>
 
 @{
-    ViewData["Title"] = "Kitaplar";
+    ViewData["Title"] = "Kitap Listesi";
 }
 
-<h1>Kütüphane Arşivi</h1>
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="display-4">📚 Kütüphane Arşivi</h1>
+        <a asp-action="Create" class="btn btn-primary btn-lg">
+            <i class="bi bi-plus-circle"></i> Yeni Kitap Ekle
+        </a>
+    </div>
 
-<p>
-    <a asp-action="Create" class="btn btn-primary">Yeni Kitap Ekle</a>
-</p>
-
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Resim</th>
-            <th>@Html.DisplayNameFor(model => model.Ad)</th>
-            <th>@Html.DisplayNameFor(model => model.Yazar)</th>
-            <th>@Html.DisplayNameFor(model => model.Tur)</th>
-            <th>İşlemler</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @if (item.ResimYolu != null)
+    @if (!Model.Any())
+    {
+        <div class="alert alert-warning text-center">
+            <h4>Henüz hiç kitap eklenmemiş.</h4>
+            <p>Yukarıdaki butona tıklayarak ilk kitabı ekleyebilirsiniz.</p>
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive shadow-sm rounded">
+            <table class="table table-hover table-striped align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Resim</th>
+                        <th>Kitap Adı</th>
+                        <th>Yazar</th>
+                        <th>Tür</th>
+                        <th>Basım Yılı</th>
+                        <th class="text-end">İşlemler</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
                     {
-                        <img src="~/images/@item.ResimYolu" width="60" />
+                        <tr>
+                            <td>
+                                <img src="@item.ResimYolu"
+                                     alt="@item.Ad"
+                                     style="width: 80px; height: 110px; object-fit: cover; border-radius: 5px; border: 1px solid #ddd;"
+                                     onerror="this.onerror=null;this.src='/images/no-image.png';" />
+                            </td>
+                            <td class="fw-bold text-primary">@item.Ad</td>
+                            <td>@item.Yazar</td>
+                            <td><span class="badge bg-secondary">@item.Tur</span></td>
+                            <td>@item.BasimYili</td>
+                            <td class="text-end">
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning me-1">Düzenle</a>
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info me-1">Detay</a>
+                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Sil</a>
+                            </td>
+                        </tr>
                     }
-                    else
-                    {
-                        <span>Yok</span>
-                    }
-                </td>
-                <td>@Html.DisplayFor(modelItem => item.Ad)</td>
-                <td>@Html.DisplayFor(modelItem => item.Yazar)</td>
-                <td>@Html.DisplayFor(modelItem => item.Tur)</td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Düzenle</a>
-                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm">Detay</a>
-                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Sil</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
