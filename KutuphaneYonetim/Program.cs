@@ -33,7 +33,7 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<KutuphaneYonetimContext>();
     
-    // Veritabanýný oluþtursun diye
+    // VeritabanÄ±nÄ± oluÅŸtursun diye
     context.Database.Migrate();
 
    
@@ -41,31 +41,31 @@ using (var scope = app.Services.CreateScope())
     {
         context.Kitaplar.AddRange(
             new Kitap { 
-                Ad = "Uçurtma Avcýsý", 
+                Ad = "UÃ§urtma AvcÄ±sÄ±", 
                 Yazar = "Khaled Hosseini", 
                 SayfaSayisi = 375, Tur = "Roman", BasimYili = 2003, 
                 ResimYolu = "/images/ucurtma.jpg" 
             },
             new Kitap { 
                 Ad = "OD", 
-                Yazar = "Ýskender Pala", 
+                Yazar = "Ä°skender Pala", 
                 SayfaSayisi = 358, Tur = "Roman", BasimYili = 2011, 
                 ResimYolu = "/images/od.jpg" 
             },
             new Kitap { 
-                Ad = "Kafkas Kartalý – Þeyh Þamil", 
-                Yazar = "Yavuz Bahadýroðlu", 
+                Ad = "Kafkas KartalÄ± â€“ Åžeyh Åžamil", 
+                Yazar = "Yavuz BahadÄ±roÄŸlu", 
                 SayfaSayisi = 256, Tur = "Roman", BasimYili = 2007, 
                 ResimYolu = "/images/seyhsamil.jpg" 
             },
             new Kitap { 
-                Ad = "Çile", 
-                Yazar = "Necip Fazýl Kýsakürek", 
-                SayfaSayisi = 502, Tur = "Þiir", BasimYili = 1962, 
+                Ad = "Ã‡ile", 
+                Yazar = "Necip FazÄ±l KÄ±sakÃ¼rek", 
+                SayfaSayisi = 502, Tur = "Åžiir", BasimYili = 1962, 
                 ResimYolu = "/images/cile.png" 
             },
             new Kitap { 
-                Ad = "Kürk Mantolu Madonna", 
+                Ad = "KÃ¼rk Mantolu Madonna", 
                 Yazar = "Sabahattin Ali", 
                 SayfaSayisi = 160, Tur = "Roman", BasimYili = 1943, 
                 ResimYolu = "/images/madonna.jpg" 
