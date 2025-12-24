@@ -55,7 +55,7 @@ using (var scope = app.Services.CreateScope())
             new Kitap { 
                 Ad = "Kafkas Kartalý – Þeyh Þamil", 
                 Yazar = "Yavuz Bahadýroðlu", 
-                SayfaSayisi = 216, Tur = "Roman", BasimYili = 1990, 
+                SayfaSayisi = 256, Tur = "Roman", BasimYili = 2007, 
                 ResimYolu = "/images/seyhsamil.jpg" 
             },
             new Kitap { 
